@@ -76,15 +76,17 @@ public class CallsController implements CallsApi {
         callDtoR.setParticipantAnnouncement(call.getParticipantAnnouncement());
         callDtoR.setParticipantRingingTimeout(call.getParticipantRingingTimeout());
         // the geozone is calculated with the phonenumber prefix
+        String participantGeoZone;
         if (call.getParticipantTelNumber().startsWith("+33")) {
-            callDtoR.setParticipantGeoZone("FR");
+            participantGeoZone = "FR";
         }
         else if (call.getParticipantTelNumber().startsWith("+34")) {
-            callDtoR.setParticipantGeoZone("SP");
+            participantGeoZone = "SP";
         }
         else {
-            callDtoR.setParticipantGeoZone("OTHER_COUNTRY");
+            participantGeoZone = "OTHER_COUNTRY";
         }
+        callDtoR.setParticipantGeoZone(participantGeoZone);
         callDtoR.setConnectionDate(call.getConnectionDate());
         callDtoR.setTerminationDate(call.getTerminationDate());
         return callDtoR;

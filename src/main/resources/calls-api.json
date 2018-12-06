@@ -6,10 +6,14 @@
   },
   "host": "api.orange.com",
   "basePath": "/",
+  "host": "localhost:8080",
   "schemes": [
     "http"
   ],
   "consumes": [
+    "application/json;charset=utf-8"
+  ],
+  "produces": [
     "application/json;charset=utf-8"
   ],
   "tags": [
@@ -25,7 +29,7 @@
           "Calls"
         ],
         "operationId": "putCalls",
-        "summary": "create a call",
+        "summary": "Create a call to one participant",
         "deprecated": false,
         "parameters": [
           {
@@ -56,7 +60,7 @@
           "Calls"
         ],
         "operationId": "getCall",
-        "summary": "get a call by ID",
+        "summary": "Get a call by ID",
         "deprecated": false,
         "parameters": [
           {
@@ -89,7 +93,7 @@
           "Calls"
         ],
         "operationId": "postCallEvents",
-        "summary": "create a call event",
+        "summary": "Add an event on a call with a status such as CREATED, CONNECTED, RINGING, TERMINATED",
         "deprecated": false,
         "parameters": [
           {
@@ -145,28 +149,27 @@
     "CallDtoW": {
       "description": "",
       "required": [
-        "callId",
-        "calleePhoneNumber",
-        "callerPhoneNumber"
+        "participantTelNumber",
+        "participantAnnouncement",
+        "participantRingingTimeout"
       ],
       "type": "object",
       "properties": {
-        "callId": {
-          "description": "",
-          "type": "string"
-        },
         "participantTelNumber": {
-          "description": "",
-          "type": "string"
+          "description": "The phone number to be called. Example : '+3312345678'",
+          "type": "string",
+          "example": "+3312345678"
         },
         "participantAnnouncement": {
-          "description": "",
-          "type": "string"
+          "description": "The name of a wav file to be played to the participant",
+          "type": "string",
+          "example": "welcome.wav"
         },
         "participantRingingTimeout": {
-          "description": "",
+          "description": "ringing timeout in seconds",
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "example": "30"
         }
       }
     },
@@ -174,14 +177,17 @@
       "description": "",
       "required": [
         "callId",
-        "calleePhoneNumber",
-        "callerPhoneNumber"
+        "participantTelNumber",
+        "participantAnnouncement",
+        "participantRingingTimeout",
+        "participantGeoZone"
       ],
       "type": "object",
       "properties": {
         "callId": {
           "description": "",
-          "type": "string"
+          "type": "string",
+          "example": "call-1"
         },
         "connectionDate": {
           "description": "",
@@ -194,21 +200,29 @@
           "format": "date-time"
         },
         "participantTelNumber": {
-          "description": "",
-          "type": "string"
+          "description": "The phone number to be called. Example : '+3312345678'",
+          "type": "string",
+          "example": "+3312345678"
         },
         "participantAnnouncement": {
-          "description": "",
-          "type": "string"
+          "description": "The name of a wav file to be played to the participant",
+          "type": "string",
+          "example": "welcome.wav"
         },
         "participantRingingTimeout": {
           "description": "",
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "example": "30"
         },
         "participantGeoZone": {
-          "description": "",
-          "type": "string"
+          "description": "The geographical zone of the participant",
+          "type": "string",
+          "enum": [
+            "FR",
+            "SP",
+            "UNKNOWN_GEO_ZONE"
+          ]
         }
       }
     },

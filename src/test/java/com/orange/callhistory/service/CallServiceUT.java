@@ -1,18 +1,14 @@
 package com.orange.callhistory.service;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
 
 import com.orange.callhistory.dao.CallDao;
 import com.orange.callhistory.dao.CallRepository;
 import org.junit.Test;
 
-public class CallServiceTest {
+public class CallServiceUT {
 
     private final CallRepository callRepository = mock(CallRepository.class);
 

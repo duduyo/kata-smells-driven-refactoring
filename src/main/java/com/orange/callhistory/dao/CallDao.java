@@ -64,7 +64,7 @@ public class CallDao {
         return participantAnnouncement;
     }
 
-    public int getParticipantRingingTimeout() {
+    public Integer getParticipantRingingTimeout() {
         return participantRingingTimeout;
     }
 
@@ -97,25 +97,13 @@ public class CallDao {
     }
 
     public OffsetDateTime getConnectionDate() {
-        Optional<CallEventDao> event = Optional.empty();
-        for (CallEventDao callEventDao : this.getEvents()) {
-            if (callEventDao.getStatus().equals(CONNECTED)) {
-                event = Optional.of(callEventDao);
-                break;
-            }
-        }
+        Optional<CallEventDao> event = this.getEvents().stream().filter(callEventDao -> callEventDao.getStatus().equals(CONNECTED)).findFirst();
         OffsetDateTime connectedEventDate = event.map(CallEventDao::getTimestamp).orElse(null);
         return connectedEventDate;
     }
 
     public OffsetDateTime getTerminationDate() {
-        Optional<CallEventDao> event = Optional.empty();
-        for (CallEventDao callEventDao : this.getEvents()) {
-            if (callEventDao.getStatus().equals(TERMINATED)) {
-                event = Optional.of(callEventDao);
-                break;
-            }
-        }
+        Optional<CallEventDao> event = this.getEvents().stream().filter(callEventDao -> callEventDao.getStatus().equals(TERMINATED)).findFirst();
         OffsetDateTime terminatedEventDate = event.map(CallEventDao::getTimestamp).orElse(null);
         return terminatedEventDate;
     }
