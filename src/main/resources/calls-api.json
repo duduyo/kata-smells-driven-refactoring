@@ -1,0 +1,234 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "API Calls"
+  },
+  "host": "api.orange.com",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json;charset=utf-8"
+  ],
+  "tags": [
+    {
+      "name": "Calls",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/calls/{callId}": {
+      "put": {
+        "tags": [
+          "Calls"
+        ],
+        "operationId": "putCalls",
+        "summary": "create a call",
+        "deprecated": false,
+        "parameters": [
+          {
+            "name": "callId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Call",
+            "required": true,
+            "in": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CallDtoW"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Calls"
+        ],
+        "operationId": "getCall",
+        "summary": "get a call by ID",
+        "deprecated": false,
+        "parameters": [
+          {
+            "name": "callId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CallDtoR"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/calls/{callId}/events": {
+      "post": {
+        "tags": [
+          "Calls"
+        ],
+        "operationId": "postCallEvents",
+        "summary": "create a call event",
+        "deprecated": false,
+        "parameters": [
+          {
+            "name": "callId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "CallEvent",
+            "required": true,
+            "in": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CallEventDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CallStatusDto": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "CREATED",
+        "RINGING",
+        "CONNECTED",
+        "TERMINATED"
+      ]
+    },
+    "ErrorDto": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "",
+          "type": "string"
+        },
+        "name": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "CallDtoW": {
+      "description": "",
+      "required": [
+        "callId",
+        "calleePhoneNumber",
+        "callerPhoneNumber"
+      ],
+      "type": "object",
+      "properties": {
+        "callId": {
+          "description": "",
+          "type": "string"
+        },
+        "participantTelNumber": {
+          "description": "",
+          "type": "string"
+        },
+        "participantAnnouncement": {
+          "description": "",
+          "type": "string"
+        },
+        "participantRingingTimeout": {
+          "description": "",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "CallDtoR": {
+      "description": "",
+      "required": [
+        "callId",
+        "calleePhoneNumber",
+        "callerPhoneNumber"
+      ],
+      "type": "object",
+      "properties": {
+        "callId": {
+          "description": "",
+          "type": "string"
+        },
+        "connectionDate": {
+          "description": "",
+          "type": "string",
+          "format": "date-time"
+        },
+        "terminationDate": {
+          "description": "",
+          "type": "string",
+          "format": "date-time"
+        },
+        "participantTelNumber": {
+          "description": "",
+          "type": "string"
+        },
+        "participantAnnouncement": {
+          "description": "",
+          "type": "string"
+        },
+        "participantRingingTimeout": {
+          "description": "",
+          "type": "integer",
+          "format": "int32"
+        },
+        "participantGeoZone": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "CallEventDto": {
+      "description": "",
+      "required": [
+        "status",
+        "timestamp"
+      ],
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/CallStatusDto"
+        },
+        "timestamp": {
+          "description": "",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
