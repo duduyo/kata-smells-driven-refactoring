@@ -24,4 +24,18 @@ public class Participant {
     public Integer getParticipantRingingTimeout() {
         return participantRingingTimeout;
     }
+
+    public String getGeoZone() {
+        String participantGeoZone;
+        if (participantTelNumber.startsWith("+33")) {
+            participantGeoZone = "FR";
+        }
+        else if (participantTelNumber.startsWith("+34")) {
+            participantGeoZone = "SP";
+        }
+        else {
+            participantGeoZone = "OTHER_COUNTRY";
+        }
+        return participantGeoZone;
+    }
 }
