@@ -10,7 +10,7 @@ import java.util.Optional;
 import com.orange.callhistory.dao.CallDao;
 import com.orange.callhistory.dao.CallEventDao;
 import com.orange.callhistory.dao.CallRepository;
-import com.orange.callhistory.service.CallEventStatus;
+import com.orange.callhistory.service.entity.CallEventStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

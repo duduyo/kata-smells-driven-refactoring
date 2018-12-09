@@ -1,6 +1,7 @@
 package com.orange.callhistory.controller;
 
 import com.orange.callhistory.controller.dto.ErrorDto;
+import com.orange.callhistory.service.entity.CallException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

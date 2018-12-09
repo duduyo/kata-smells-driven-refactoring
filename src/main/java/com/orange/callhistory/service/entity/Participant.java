@@ -1,4 +1,4 @@
-package com.orange.callhistory.service;
+package com.orange.callhistory.service.entity;
 
 public class Participant {
     private final String participantTelNumber;

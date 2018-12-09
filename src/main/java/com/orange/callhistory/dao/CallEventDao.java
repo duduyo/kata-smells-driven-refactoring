@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.orange.callhistory.service.CallEventStatus;
+import com.orange.callhistory.service.entity.CallEventStatus;
 
 @Entity
 public class CallEventDao {

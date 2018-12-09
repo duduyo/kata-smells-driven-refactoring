@@ -1,11 +1,12 @@
-package com.orange.callhistory.service;
+package com.orange.callhistory.dao;
 
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
-import com.orange.callhistory.dao.CallDao;
-import com.orange.callhistory.dao.CallEventDao;
+import com.orange.callhistory.service.entity.Call;
+import com.orange.callhistory.service.entity.CallEvent;
+import com.orange.callhistory.service.entity.Participant;
 
 import org.springframework.stereotype.Component;
 

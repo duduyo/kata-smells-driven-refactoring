@@ -2,7 +2,9 @@ package com.orange.callhistory.service;
 
 import java.util.Optional;
 
-import com.orange.callhistory.controller.CallException;
+import com.orange.callhistory.service.entity.Call;
+import com.orange.callhistory.service.entity.CallEvent;
+import com.orange.callhistory.service.entity.CallException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

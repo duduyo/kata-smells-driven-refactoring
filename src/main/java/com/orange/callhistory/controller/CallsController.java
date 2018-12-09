@@ -1,6 +1,6 @@
 package com.orange.callhistory.controller;
 
-import static com.orange.callhistory.service.CallEventStatus.valueOf;
+import static com.orange.callhistory.service.entity.CallEventStatus.valueOf;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -8,10 +8,10 @@ import java.util.UUID;
 import com.orange.callhistory.controller.dto.CallDtoR;
 import com.orange.callhistory.controller.dto.CallDtoW;
 import com.orange.callhistory.controller.dto.CallEventDto;
-import com.orange.callhistory.service.Call;
-import com.orange.callhistory.service.CallEvent;
 import com.orange.callhistory.service.CallService;
-import com.orange.callhistory.service.Participant;
+import com.orange.callhistory.service.entity.Call;
+import com.orange.callhistory.service.entity.CallEvent;
+import com.orange.callhistory.service.entity.Participant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
