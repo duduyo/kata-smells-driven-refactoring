@@ -1,9 +1,13 @@
 package com.orange.callhistory.service;
 
+import static com.orange.callhistory.service.CallEventStatus.CONNECTED;
+import static com.orange.callhistory.service.CallEventStatus.TERMINATED;
+
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 // TODO Smell anemic model
@@ -18,17 +22,11 @@ public class Call {
 
     private Integer participantRingingTimeout;
 
-    private OffsetDateTime connectionDate;
-
-    private OffsetDateTime terminationDate;
-
     private Set<CallEvent> events = new HashSet<>();
 
     // TODO Smell : many params
-    public Call(String callId, String participantTelNumber, String participantAnnouncement, Integer participantRingingTimeout, List<CallEvent> events, OffsetDateTime connectionDate, OffsetDateTime terminationDate) {
+    public Call(String callId, String participantTelNumber, String participantAnnouncement, Integer participantRingingTimeout, List<CallEvent> events) {
         this(callId, participantTelNumber, participantAnnouncement, participantRingingTimeout);
-        this.connectionDate = connectionDate;
-        this.terminationDate = terminationDate;
         events.stream().forEach(this::addEvent);
     }
 
@@ -65,11 +63,17 @@ public class Call {
     }
 
     public OffsetDateTime getConnectionDate() {
-        return connectionDate;
+        return getDateFromEventType(CONNECTED);
+    }
+
+    private OffsetDateTime getDateFromEventType(CallEventStatus connected) {
+        Optional<CallEvent> event = this.getEvents().stream().filter(callEvent -> callEvent.getStatus().equals(connected)).findFirst();
+        OffsetDateTime connectedEventDate = event.map(CallEvent::getTimestamp).orElse(null);
+        return connectedEventDate;
     }
 
     public OffsetDateTime getTerminationDate() {
-        return terminationDate;
+        return getDateFromEventType(TERMINATED);
     }
 
     public String calculateGeoZone() {
@@ -85,4 +89,5 @@ public class Call {
         }
         return participantGeoZone;
     }
+
 }

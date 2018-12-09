@@ -1,13 +1,8 @@
 package com.orange.callhistory.dao;
 
-import static com.orange.callhistory.service.CallEventStatus.CONNECTED;
-import static com.orange.callhistory.service.CallEventStatus.TERMINATED;
-
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -96,17 +91,4 @@ public class CallDao {
         return callId.hashCode();
     }
 
-    // TODO Smell : business rule in a dao entity
-    // TODO Smell : duplication
-    public OffsetDateTime getConnectionDate() {
-        Optional<CallEventDao> event = this.getEvents().stream().filter(callEventDao -> callEventDao.getStatus().equals(CONNECTED)).findFirst();
-        OffsetDateTime connectedEventDate = event.map(CallEventDao::getTimestamp).orElse(null);
-        return connectedEventDate;
-    }
-
-    public OffsetDateTime getTerminationDate() {
-        Optional<CallEventDao> event = this.getEvents().stream().filter(callEventDao -> callEventDao.getStatus().equals(TERMINATED)).findFirst();
-        OffsetDateTime terminatedEventDate = event.map(CallEventDao::getTimestamp).orElse(null);
-        return terminatedEventDate;
-    }
 }
