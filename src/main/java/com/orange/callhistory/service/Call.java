@@ -10,48 +10,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-// TODO Smell anemic model
 public class Call {
 
     private String callId;
 
-    // TODO Smell : several fields about "participant"
-    private String participantTelNumber;
-
-    private String participantAnnouncement;
-
-    private Integer participantRingingTimeout;
+    private Participant participant;
 
     private Set<CallEvent> events = new HashSet<>();
 
-    // TODO Smell : many params
-    public Call(String callId, String participantTelNumber, String participantAnnouncement, Integer participantRingingTimeout, List<CallEvent> events) {
-        this(callId, participantTelNumber, participantAnnouncement, participantRingingTimeout);
+    public Call(String callId, Participant participant, List<CallEvent> events) {
+        this(callId, participant);
         events.stream().forEach(this::addEvent);
     }
 
-    // TODO Smell : many params
-    public Call(String callId, String participantTelNumber, String participantAnnouncement, Integer participantRingingTimeout) {
+    public Call(String callId, Participant participant) {
         this.callId = callId;
-        this.participantTelNumber = participantTelNumber;
-        this.participantAnnouncement = participantAnnouncement;
-        this.participantRingingTimeout = participantRingingTimeout;
+        this.participant = participant;
     }
 
     public String getCallId() {
         return callId;
-    }
-
-    public String getParticipantTelNumber() {
-        return participantTelNumber;
-    }
-
-    public String getParticipantAnnouncement() {
-        return participantAnnouncement;
-    }
-
-    public Integer getParticipantRingingTimeout() {
-        return participantRingingTimeout;
     }
 
     public void addEvent(CallEvent callEvent) {
@@ -78,10 +56,10 @@ public class Call {
 
     public String calculateGeoZone() {
         String participantGeoZone;
-        if (getParticipantTelNumber().startsWith("+33")) {
+        if (getParticipant().getParticipantTelNumber().startsWith("+33")) {
             participantGeoZone = "FR";
         }
-        else if (getParticipantTelNumber().startsWith("+34")) {
+        else if (getParticipant().getParticipantTelNumber().startsWith("+34")) {
             participantGeoZone = "SP";
         }
         else {
@@ -90,4 +68,7 @@ public class Call {
         return participantGeoZone;
     }
 
+    public Participant getParticipant() {
+        return participant;
+    }
 }

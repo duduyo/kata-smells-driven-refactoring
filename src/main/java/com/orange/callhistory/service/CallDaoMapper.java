@@ -22,10 +22,7 @@ public class CallDaoMapper {
     Call mapDaoToCall(CallDao callDao) {
         return new Call(
                 callDao.getCallId(),
-                callDao.getParticipantUri(),
-                callDao.getParticipantAnnouncement(),
-                callDao.getParticipantRingingTimeout(),
-                mapDaoToCallEvents(callDao));
+                new Participant(callDao.getParticipantUri(), callDao.getParticipantAnnouncement(), callDao.getParticipantRingingTimeout()), mapDaoToCallEvents(callDao));
     }
 
     CallEventDao mapCallEventToDao(CallEvent callEvent) {
@@ -39,9 +36,9 @@ public class CallDaoMapper {
     CallDao mapCallToDao(Call call) {
         return new CallDao(
                 call.getCallId(),
-                call.getParticipantTelNumber(),
-                call.getParticipantAnnouncement(),
-                call.getParticipantRingingTimeout(),
+                call.getParticipant().getParticipantTelNumber(),
+                call.getParticipant().getParticipantAnnouncement(),
+                call.getParticipant().getParticipantRingingTimeout(),
                 mapCallEventsToDaos(call));
     }
 }

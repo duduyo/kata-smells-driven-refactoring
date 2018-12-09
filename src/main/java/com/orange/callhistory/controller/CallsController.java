@@ -11,6 +11,7 @@ import com.orange.callhistory.controller.dto.CallEventDTO;
 import com.orange.callhistory.service.Call;
 import com.orange.callhistory.service.CallEvent;
 import com.orange.callhistory.service.CallService;
+import com.orange.callhistory.service.Participant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class CallsController implements CallsApi {
 
     @Override
     public ResponseEntity<Void> putCalls(@PathVariable String callId, @RequestBody CallDTOWrite callDTOWrite) {
-        Call call = new Call(callId, callDTOWrite.getParticipantTelNumber(), callDTOWrite.getParticipantAnnouncement(), callDTOWrite.getParticipantRingingTimeout());
+        Call call = new Call(callId, new Participant(callDTOWrite.getParticipantTelNumber(), callDTOWrite.getParticipantAnnouncement(), callDTOWrite.getParticipantRingingTimeout()));
         callService.createCallIfNotExisting(callId, call);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -55,9 +56,9 @@ public class CallsController implements CallsApi {
     private CallDTORead mapCallToCallDto(Call call) {
         CallDTORead callDTORead = new CallDTORead();
         callDTORead.setCallId(call.getCallId());
-        callDTORead.setParticipantTelNumber(call.getParticipantTelNumber());
-        callDTORead.setParticipantAnnouncement(call.getParticipantAnnouncement());
-        callDTORead.setParticipantRingingTimeout(call.getParticipantRingingTimeout());
+        callDTORead.setParticipantTelNumber(call.getParticipant().getParticipantTelNumber());
+        callDTORead.setParticipantAnnouncement(call.getParticipant().getParticipantAnnouncement());
+        callDTORead.setParticipantRingingTimeout(call.getParticipant().getParticipantRingingTimeout());
         callDTORead.setParticipantGeoZone(CallDTORead.ParticipantGeoZoneEnum.fromValue(call.calculateGeoZone()));
         callDTORead.setConnectionDate(call.getConnectionDate());
         callDTORead.setTerminationDate(call.getTerminationDate());
