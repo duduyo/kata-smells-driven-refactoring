@@ -54,21 +54,8 @@ public class Call {
         return getDateFromEventType(TERMINATED);
     }
 
-    public String calculateGeoZone() {
-        String participantGeoZone;
-        if (getParticipant().getParticipantTelNumber().startsWith("+33")) {
-            participantGeoZone = "FR";
-        }
-        else if (getParticipant().getParticipantTelNumber().startsWith("+34")) {
-            participantGeoZone = "SP";
-        }
-        else {
-            participantGeoZone = "OTHER_COUNTRY";
-        }
-        return participantGeoZone;
-    }
-
     public Participant getParticipant() {
         return participant;
     }
+
 }

@@ -59,7 +59,7 @@ public class CallsController implements CallsApi {
         callDtoR.setParticipantTelNumber(call.getParticipant().getParticipantTelNumber());
         callDtoR.setParticipantAnnouncement(call.getParticipant().getParticipantAnnouncement());
         callDtoR.setParticipantRingingTimeout(call.getParticipant().getParticipantRingingTimeout());
-        callDtoR.setParticipantGeoZone(CallDtoR.ParticipantGeoZoneEnum.fromValue(call.calculateGeoZone()));
+        callDtoR.setParticipantGeoZone(CallDtoR.ParticipantGeoZoneEnum.fromValue(call.getParticipant().getGeoZone(call)));
         callDtoR.setConnectionDate(call.getConnectionDate());
         callDtoR.setTerminationDate(call.getTerminationDate());
         return callDtoR;
