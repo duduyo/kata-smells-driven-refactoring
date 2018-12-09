@@ -11,6 +11,7 @@ import com.orange.callhistory.controller.dto.CallEventDto;
 import com.orange.callhistory.service.Call;
 import com.orange.callhistory.service.CallEvent;
 import com.orange.callhistory.service.CallService;
+import com.orange.callhistory.service.Participant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class CallsController implements CallsApi {
 
     @Override
     public ResponseEntity<Void> putCalls(@PathVariable String callId, @RequestBody CallDtoW callDtoW) {
-        Call call = new Call(callId, callDtoW.getParticipantTelNumber(), callDtoW.getParticipantAnnouncement(), callDtoW.getParticipantRingingTimeout());
+        Call call = new Call(callId, new Participant(callDtoW.getParticipantTelNumber(), callDtoW.getParticipantAnnouncement(), callDtoW.getParticipantRingingTimeout()));
         callService.createCallIfNotExisting(callId, call);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -55,9 +56,9 @@ public class CallsController implements CallsApi {
     private CallDtoR mapCallToCallDto(Call call) {
         CallDtoR callDtoR = new CallDtoR();
         callDtoR.setCallId(call.getCallId());
-        callDtoR.setParticipantTelNumber(call.getParticipantTelNumber());
-        callDtoR.setParticipantAnnouncement(call.getParticipantAnnouncement());
-        callDtoR.setParticipantRingingTimeout(call.getParticipantRingingTimeout());
+        callDtoR.setParticipantTelNumber(call.getParticipant().getParticipantTelNumber());
+        callDtoR.setParticipantAnnouncement(call.getParticipant().getParticipantAnnouncement());
+        callDtoR.setParticipantRingingTimeout(call.getParticipant().getParticipantRingingTimeout());
         callDtoR.setParticipantGeoZone(CallDtoR.ParticipantGeoZoneEnum.fromValue(call.calculateGeoZone()));
         callDtoR.setConnectionDate(call.getConnectionDate());
         callDtoR.setTerminationDate(call.getTerminationDate());
