@@ -71,4 +71,18 @@ public class Call {
     public OffsetDateTime getTerminationDate() {
         return terminationDate;
     }
+
+    public String calculateGeoZone() {
+        String participantGeoZone;
+        if (getParticipantTelNumber().startsWith("+33")) {
+            participantGeoZone = "FR";
+        }
+        else if (getParticipantTelNumber().startsWith("+34")) {
+            participantGeoZone = "SP";
+        }
+        else {
+            participantGeoZone = "OTHER_COUNTRY";
+        }
+        return participantGeoZone;
+    }
 }
