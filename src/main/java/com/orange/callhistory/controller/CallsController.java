@@ -31,9 +31,9 @@ public class CallsController implements CallsApi {
 
     @Override
     public ResponseEntity<Void> putCalls(@PathVariable String callId, @RequestBody CallDtoW callDtoW) {
-
         Call call = new Call(callId, callDtoW.getParticipantTelNumber(), callDtoW.getParticipantAnnouncement(), callDtoW.getParticipantRingingTimeout());
 
+// TODO Smell : look like a business rule, in the controller
         Optional<Call> existingCall = callService.findCall(callId);
         if (existingCall.isPresent()) {
             throw new CallException("You cannot create a call with this callId : a call with id=" + callId + " already exists");
@@ -46,9 +46,9 @@ public class CallsController implements CallsApi {
 
     @Override
     public ResponseEntity<Void> postCallEvents(@PathVariable("callId") String callId, @RequestBody CallEventDto callEventDto) {
-
         CallEvent callEvent = new CallEvent(UUID.randomUUID().toString(), valueOf(callEventDto.getStatus().toString()), callEventDto.getTimestamp());
 
+// TODO Smell : look like a business rule, in a controller
         Optional<Call> call = callService.findCall(callId);
         if (call.isPresent()) {
             call.get().addEvent(callEvent);
@@ -75,6 +75,7 @@ public class CallsController implements CallsApi {
         callDtoR.setParticipantTelNumber(call.getParticipantTelNumber());
         callDtoR.setParticipantAnnouncement(call.getParticipantAnnouncement());
         callDtoR.setParticipantRingingTimeout(call.getParticipantRingingTimeout());
+// TODO Smell : business rule in the middle of mapping logic
         // the geozone is calculated with the phonenumber prefix
         String participantGeoZone;
         if (call.getParticipantTelNumber().startsWith("+33")) {

@@ -96,6 +96,8 @@ public class CallDao {
         return callId.hashCode();
     }
 
+    // TODO Smell : business rule in a dao entity
+    // TODO Smell : duplication
     public OffsetDateTime getConnectionDate() {
         Optional<CallEventDao> event = this.getEvents().stream().filter(callEventDao -> callEventDao.getStatus().equals(CONNECTED)).findFirst();
         OffsetDateTime connectedEventDate = event.map(CallEventDao::getTimestamp).orElse(null);

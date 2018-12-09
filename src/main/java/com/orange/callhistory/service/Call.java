@@ -6,10 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// TODO Smell anemic model
 public class Call {
 
     private String callId;
 
+    // TODO Smell : several fields about "participant"
     private String participantTelNumber;
 
     private String participantAnnouncement;
@@ -22,6 +24,7 @@ public class Call {
 
     private Set<CallEvent> events = new HashSet<>();
 
+    // TODO Smell : many params
     public Call(String callId, String participantTelNumber, String participantAnnouncement, Integer participantRingingTimeout, List<CallEvent> events, OffsetDateTime connectionDate, OffsetDateTime terminationDate) {
         this(callId, participantTelNumber, participantAnnouncement, participantRingingTimeout);
         this.connectionDate = connectionDate;
@@ -29,6 +32,7 @@ public class Call {
         events.stream().forEach(this::addEvent);
     }
 
+    // TODO Smell : many params
     public Call(String callId, String participantTelNumber, String participantAnnouncement, Integer participantRingingTimeout) {
         this.callId = callId;
         this.participantTelNumber = participantTelNumber;
