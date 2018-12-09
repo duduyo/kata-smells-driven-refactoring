@@ -1,4 +1,4 @@
-package com.orange.callhistory.service;
+package com.orange.callhistory.service.entity;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

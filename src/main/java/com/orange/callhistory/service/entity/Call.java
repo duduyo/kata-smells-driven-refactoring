@@ -1,7 +1,7 @@
-package com.orange.callhistory.service;
+package com.orange.callhistory.service.entity;
 
-import static com.orange.callhistory.service.CallEventStatus.CONNECTED;
-import static com.orange.callhistory.service.CallEventStatus.TERMINATED;
+import static com.orange.callhistory.service.entity.CallEventStatus.CONNECTED;
+import static com.orange.callhistory.service.entity.CallEventStatus.TERMINATED;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
