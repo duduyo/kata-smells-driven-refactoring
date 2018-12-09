@@ -25,9 +25,7 @@ public class CallDaoMapper {
                 callDao.getParticipantUri(),
                 callDao.getParticipantAnnouncement(),
                 callDao.getParticipantRingingTimeout(),
-                mapDaoToCallEvents(callDao),
-                callDao.getConnectionDate(),
-                callDao.getTerminationDate());
+                mapDaoToCallEvents(callDao));
     }
 
     CallEventDao mapCallEventToDao(CallEvent callEvent) {
