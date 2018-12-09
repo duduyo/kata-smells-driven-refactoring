@@ -3,6 +3,7 @@ package com.orange.callhistory.controller;
 import static com.orange.callhistory.service.CallEventStatus.valueOf;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.orange.callhistory.controller.dto.CallDTORead;
 import com.orange.callhistory.controller.dto.CallDTOWrite;
@@ -30,34 +31,15 @@ public class CallsController implements CallsApi {
 
     @Override
     public ResponseEntity<Void> putCalls(@PathVariable String callId, @RequestBody CallDTOWrite callDTOWrite) {
-
         Call call = new Call(callId, callDTOWrite.getParticipantTelNumber(), callDTOWrite.getParticipantAnnouncement(), callDTOWrite.getParticipantRingingTimeout());
-
-// TODO Smell : look like a business rule, in the controller
-        Optional<Call> existingCall = callService.findCall(callId);
-        if (existingCall.isPresent()) {
-            throw new CallException("You cannot create a call with this callId : a call with id=" + callId + " already exists");
-        }
-        else {
-            callService.save(call);
-        }
+        callService.createCallIfNotExisting(callId, call);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
     public ResponseEntity<Void> postCallEvents(@PathVariable("callId") String callId, @RequestBody CallEventDTO callEventDTO) {
-
         CallEvent callEvent = new CallEvent(valueOf(callEventDTO.getStatus().toString()), callEventDTO.getTimestamp());
-
-// TODO Smell : look like a business rule, in a controller
-        Optional<Call> call = callService.findCall(callId);
-        if (call.isPresent()) {
-            call.get().addEvent(callEvent);
-            callService.save(call.get());
-        }
-        else {
-            throw new CallException("Cannot add event to call with callId " + callId + " : it does not exist");
-        }
+        callService.createEvent(callId, callEvent);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -76,19 +58,7 @@ public class CallsController implements CallsApi {
         callDTORead.setParticipantTelNumber(call.getParticipantTelNumber());
         callDTORead.setParticipantAnnouncement(call.getParticipantAnnouncement());
         callDTORead.setParticipantRingingTimeout(call.getParticipantRingingTimeout());
-// TODO Smell : business rule in the middle of mapping logic
-        // the geozone is calculated with the phonenumber prefix
-        String participantGeoZone;
-        if (call.getParticipantTelNumber().startsWith("+33")) {
-            participantGeoZone = "FR";
-        }
-        else if (call.getParticipantTelNumber().startsWith("+34")) {
-            participantGeoZone = "SP";
-        }
-        else {
-            participantGeoZone = "OTHER_COUNTRY";
-        }
-        callDTORead.setParticipantGeoZone(CallDTORead.ParticipantGeoZoneEnum.fromValue(participantGeoZone));
+        callDTORead.setParticipantGeoZone(CallDTORead.ParticipantGeoZoneEnum.fromValue(call.calculateGeoZone()));
         callDTORead.setConnectionDate(call.getConnectionDate());
         callDTORead.setTerminationDate(call.getTerminationDate());
         return callDTORead;
