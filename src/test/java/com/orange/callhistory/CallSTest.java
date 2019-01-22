@@ -28,6 +28,8 @@ public class CallSTest {
 
     private static final String CALL_ID_2 = "call-id-2";
 
+    private static final String CALL_ID_3 = "call-id-3";
+
     @Autowired WebTestClient webTestClient;
 
     @Test
@@ -60,6 +62,47 @@ public class CallSTest {
 
         assertGetCallReturnsOk(CALL_ID_1, "2018-10-02T16:00:10+02:00", "2018-10-02T16:05:10+02:00");
     }
+
+    @Test
+    public void put_and_get_calls_for_geozones() {
+
+        assertPutCallReturnedStatus("call-4", "+34501020304", RINGBACKTONE_WAV).isNoContent();
+        webTestClient.get()
+                .uri("/calls/{callId}", "call-4")
+                .header("Content-type", "application/json")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .jsonPath("$.participantGeoZone").isEqualTo("SP");
+
+        assertPutCallReturnedStatus("call-5", "+35501020304", RINGBACKTONE_WAV).isNoContent();
+        webTestClient.get()
+                .uri("/calls/{callId}", "call-5")
+                .header("Content-type", "application/json")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .jsonPath("$.participantGeoZone").isEqualTo("OTHER_COUNTRY");
+    }
+
+
+    @Test
+    public void post_event_returns_not_found() {
+
+        assertThatPostEventReturnedStatus("call-unknown", "CREATED", "2018-10-02T16:00:00+02:00")
+                .isBadRequest();
+    }
+
+    @Test
+    public void post_call_with_already_existing_id_returns_bad_request() {
+
+        assertPutCallReturnedStatus(CALL_ID_3, PARTICIPANT_TEL_NUMBER, RINGBACKTONE_WAV).isNoContent();
+
+        assertPutCallReturnedStatus(CALL_ID_3, PARTICIPANT_TEL_NUMBER, RINGBACKTONE_WAV).isBadRequest();
+    }
+
 
     private StatusAssertions assertPutCallReturnedStatus(String callId, String participantTelNumber, String participantAnnouncement) {
         String callBody =
