@@ -8,7 +8,7 @@ import com.orange.callhistory.dao.CallDao;
 import com.orange.callhistory.dao.CallRepository;
 import org.junit.Test;
 
-public class CallServiceUT {
+public class CallServiceUTest {
 
     private final CallRepository callRepository = mock(CallRepository.class);
 

@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CallRepositoryIT {
+public class CallRepositoryITest {
 
     public static final String PARTICIPANT_TEL_NUMBER = "+33501020304";
 

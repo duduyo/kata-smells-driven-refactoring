@@ -15,7 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureWebTestClient
-public class CallST {
+public class CallSTest {
 
 
     public static final String PARTICIPANT_TEL_NUMBER = "+33501020304";
