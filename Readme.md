@@ -18,7 +18,7 @@ Constraints :
 
 # Tips and solution
 
-See commit order on the "solution" branch
+See commit order on the "solution" branch. The solution of the step 0, is in the commit called "1-xxx", etc....
 
 0- Run tests with coverage : some code is not covered by tests. Complete the CallST class to have 100% coverage
 
@@ -32,29 +32,35 @@ See commit order on the "solution" branch
 
 2- Refactor CallController :  move code to other classes
 
-=> how = extract methods, and then move methods to CallService or to Call
+* how = extract methods, and then move methods from CallController to CallService or to Call
+*  IDE refactoring  tips = use "extract method" and "move" feature
 
 3- Refactor CallService : move code to a new class
 
-=> how = create a new field for the new class, inject it in the CallService constructor, and then move methods to this new class. Take care of the dependency between methods while moving
+* how = create a new field for the new class, inject it in the CallService constructor, and then move methods to this new class. Take care of the dependency between methods while moving
+* IDE refactoring tips = use "add to constructor" on the field, use "move" on the methods
 
 4- Refactor CallDao : move code to a class that is not accessible in the scope
 
-=> as there is no relationship between CallDao and Call class (where we'd like to move the code), we have to do it manually
 
-=> how = copy/paste the method to the new location, rename the new method with "New" suffix, make it compile. Step by step, replace in the code the calls to the old method by calls to the new one. At the end, delete the old method 
+* how = as there is no relationship between CallDao and Call class (where we'd like to move the code), we have to do it manually.
+Do parallel change : copy/paste the method to the new location, rename the new method with "New" suffix, make it compile. Step by step, replace in the code the calls to the old method by calls to the new one. At the end, delete the old method 
 At the end, delete the old method
+
+* IDE refactoring tips = we cannot use the "move" feature, so we copy/paste. But then we can use "rename", "inline", etc... to switch to the new code
 
 5- Refactor Call class : introduce a Participant object to reduce fields and parameters number
 
-=> how : on the constructor, use the Extract Parameter Object action in order to create and introduce the Participant class. Do it on the second constructor. Create the participant field, and use it in the code. Delete participantXxx fields when finished
+* how = on the constructor, extract an object from the 3 participant parameters. This creates the Participant class. Do it on the second constructor. Create the participant field, and use it in the code. Delete participantXxx fields when finished
+* IDE refactoring tips : Use "extract parameter object" on the 2 constructors
 
 6- Refactor CallService : extract storage feature to a new class CallRepositoryPort
 
-=> how : extract code to be moved in private methods and then do a "move to a new class". Do the "move to a new class" as in step 2, or try the "Extract Delegate" refactoring of intellij
+* how : extract code to be moved in private methods and then move it to a new class
+* IDE refactoring tips : Do it as in step 2, or try the "Extract Delegate" refactoring action
  
 7- Refactor the application to a clean architecture :
 
-=> extract interface for CallRepositoryPort, with an implementing class called CallRepositoryAdapter
-
-=> re arrange packages  and classes so that the service package does not depend on any other package
+* how = extract interface for CallRepositoryPort, with an implementing class called CallRepositoryAdapter. And the arrange packages  and classes so that the service package does not depend on any other package
+* IDE refactoring tips : Use "Extract interface" feature
+* IDE dependency analysis tips : use "Analyse dependcy matrix" on the project to check dependencies between packages
