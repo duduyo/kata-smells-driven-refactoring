@@ -221,7 +221,7 @@
           "enum": [
             "FR",
             "SP",
-            "UNKNOWN_GEO_ZONE"
+            "OTHER_COUNTRY"
           ]
         }
       }
