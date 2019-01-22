@@ -86,7 +86,7 @@ public class CallsController implements CallsApi {
         else {
             participantGeoZone = "OTHER_COUNTRY";
         }
-        callDtoR.setParticipantGeoZone(participantGeoZone);
+        callDtoR.setParticipantGeoZone(CallDtoR.ParticipantGeoZoneEnum.fromValue(participantGeoZone));
         callDtoR.setConnectionDate(call.getConnectionDate());
         callDtoR.setTerminationDate(call.getTerminationDate());
         return callDtoR;
