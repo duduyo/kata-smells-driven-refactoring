@@ -1,7 +1,19 @@
 
 # Smells driven refactoring kata
 
-What to do for this kata ?
+## Objective
+
+This kata shows how code smells, refactorings and clean architecture are linked together.
+It illustrates :
+- how to make a diagnosis on your code based on "code smells", how to use this diagnosis to organize your refactoring steps
+- how to make each refactoring without breaking the tests, with baby steps
+- how your IDE can (greatly !)  help
+- how to transform the global architecture of your system to a "clean architecture"
+
+
+## Try it
+
+Where to start :
 
 * identify some code smells
 * refactor the code in order to suppress the code smells
@@ -16,7 +28,7 @@ Constraints :
 * the API spec is fixed, we cannot change it
 * the database structure is fixed, we cannot change it
 
-# Tips and solution
+## Tips and solution
 
 See commit order on the "solution" branch. The solution of the step 0, is in the commit called "1-xxx", etc....
 
