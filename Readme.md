@@ -10,8 +10,57 @@ It illustrates :
 - how your IDE can (greatly !)  help
 - how to transform the global architecture of your system to a "clean architecture"
 
+## Some words about the app
 
-## Try it
+The codebase is a small application, exposing a phone call management API
+- POST /calls : create and store a call
+- POST /calls/{callId}/events : add an event on a call (CREATED, RINGING, CONNECTED, TERMINATED)
+- GET /calls/{callId} : get a call, including calculated data such a geozone & dates
+ 
+### Architecture
+ 
+```
+                      Calls API         
+                    calls-api.json
+                          |
+controller package        v
++-------------------------------------------------+
+| CallsApi (interface, generated)                 |
+| CallDtoW & CallDtoR (exchange model, generated) |
+| CallsController                                 |
++-------------------------------------------------+
+                          |
+ service package          v
+ +-------------------------------------------------+
+ | CallService                                     |
+ | Call, CallEvent (model)                         |
+ +-------------------------------------------------+
+                          |
+ dao package              v
+ +-------------------------------------------------+
+ |  CallRepository                                 |
+ |  CallDao, CallEventDao (exchange model to db)   |
+ +-------------------------------------------------+
+                          |
+                          v
+                         DB
+
+
+```
+### Business rules
+
+* A Call is created with a "callId", this id is provided by an external system. You shouldn't be able to create a call if one already exists with the same id
+* Events are created and associated to one existing callId
+* the connectionDate of a call is the date of the first event with the CONNECTED status
+* the termination date of a call is the date of the first event with the TERMINATED status
+* the geozone of a call is calculated from the prefix in the phone number : +33 => "FR", +34 => "SP", etc...
+
+
+## Try to refactor it !
+
+Constraints :
+* the API spec is fixed, we cannot change it
+* the database structure is fixed, we cannot change it
 
 Where to start :
 
@@ -19,14 +68,6 @@ Where to start :
 * refactor the code in order to suppress the code smells
 * do it again if needed
 
-The codebase is a small application, exposing a call management API
-- POST /calls : create and store a call
-- POST /calls/{callId}/events : add an event on a call (CREATED, RINGING, CONNECTED, TERMINATED)
-- GET /calls/{callId} : get a call, including calculated data such a geozone & dates
- 
-Constraints :
-* the API spec is fixed, we cannot change it
-* the database structure is fixed, we cannot change it
 
 ## Tips and solution
 

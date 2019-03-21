@@ -44,24 +44,6 @@ public class CallService {
         return new CallEventDao(callEvent.getId(), callEvent.getStatus(), callEvent.getTimestamp());
     }
 
-    // see if we should maintain this code
-    public void createCallEndpoint(String callId, CallEvent callEvent) {
-        Optional<CallDao> callDao1 = callRepository.findById(callId);
-        Optional<Call> call2 = callDao1.map(this::mapDaoToCall);
-        Optional<Call> call = call2;
-        if (call.isPresent()) {
-            call.get().addEvent(callEvent);
-            Call call1 = call.get();
-            CallDao callDao = new CallDao(
-                    call1.getCallId(),
-                    call1.getParticipantTelNumber(),
-                    call1.getParticipantAnnouncement(),
-                    call1.getParticipantRingingTimeout());
-            callRepository.save(callDao);
-
-        }
-    }
-
     public Optional<Call> findCall(String callId) {
         Optional<CallDao> callDao = callRepository.findById(callId);
         Optional<Call> call = callDao.map(this::mapDaoToCall);
