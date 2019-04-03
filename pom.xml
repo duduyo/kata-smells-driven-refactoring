@@ -77,6 +77,11 @@
 			<artifactId>kotlin-stdlib-jdk8</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlinx</groupId>
+			<artifactId>kotlinx-coroutines-core</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 	</dependencies>
 
 
@@ -126,6 +131,9 @@
 								<source>src/main/java</source>
 								<source>target/generated-sources/swagger/src/main/java</source>
 							</sourceDirs>
+							<args>
+								<arg>-Xcoroutines=enable</arg>
+							</args>
 						</configuration>
 					</execution>
 					<execution>
@@ -134,6 +142,11 @@
 						<goals>
 							<goal>test-compile</goal>
 						</goals>
+						<configuration>
+							<args>
+								<arg>-Xcoroutines=enable</arg>
+							</args>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
