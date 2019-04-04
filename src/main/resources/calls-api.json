@@ -109,7 +109,7 @@
             "in": "body",
             "description": "",
             "schema": {
-              "$ref": "#/definitions/CallEventDto"
+              "$ref": "#/definitions/CallEventDTO"
             }
           }
         ],
@@ -226,7 +226,7 @@
         }
       }
     },
-    "CallEventDto": {
+    "CallEventDTO": {
       "description": "",
       "required": [
         "status",

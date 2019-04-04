@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.orange.callhistory.controller.dto.CallDTORead;
 import com.orange.callhistory.controller.dto.CallDTOWrite;
-import com.orange.callhistory.controller.dto.CallEventDto;
+import com.orange.callhistory.controller.dto.CallEventDTO;
 import com.orange.callhistory.service.Call;
 import com.orange.callhistory.service.CallEvent;
 import com.orange.callhistory.service.CallService;
@@ -44,9 +44,9 @@ public class CallsController implements CallsApi {
     }
 
     @Override
-    public ResponseEntity<Void> postCallEvents(@PathVariable("callId") String callId, @RequestBody CallEventDto callEventDto) {
+    public ResponseEntity<Void> postCallEvents(@PathVariable("callId") String callId, @RequestBody CallEventDTO callEventDTO) {
 
-        CallEvent callEvent = new CallEvent(valueOf(callEventDto.getStatus().toString()), callEventDto.getTimestamp());
+        CallEvent callEvent = new CallEvent(valueOf(callEventDTO.getStatus().toString()), callEventDTO.getTimestamp());
 
         Optional<Call> call = callService.findCall(callId);
         if (call.isPresent()) {
