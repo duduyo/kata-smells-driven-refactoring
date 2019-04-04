@@ -45,7 +45,7 @@
             "in": "body",
             "description": "",
             "schema": {
-              "$ref": "#/definitions/CallDtoW"
+              "$ref": "#/definitions/CallDTOWrite"
             }
           }
         ],
@@ -75,7 +75,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CallDtoR"
+              "$ref": "#/definitions/CallDTORead"
             }
           },
           "404": {
@@ -146,7 +146,7 @@
         }
       }
     },
-    "CallDtoW": {
+    "CallDTOWrite": {
       "description": "",
       "required": [
         "participantTelNumber",
@@ -173,7 +173,7 @@
         }
       }
     },
-    "CallDtoR": {
+    "CallDTORead": {
       "description": "",
       "required": [
         "callId",

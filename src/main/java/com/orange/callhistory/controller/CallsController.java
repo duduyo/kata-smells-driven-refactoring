@@ -3,10 +3,9 @@ package com.orange.callhistory.controller;
 import static com.orange.callhistory.service.CallEventStatus.valueOf;
 
 import java.util.Optional;
-import java.util.UUID;
 
-import com.orange.callhistory.controller.dto.CallDtoR;
-import com.orange.callhistory.controller.dto.CallDtoW;
+import com.orange.callhistory.controller.dto.CallDTORead;
+import com.orange.callhistory.controller.dto.CallDTOWrite;
 import com.orange.callhistory.controller.dto.CallEventDto;
 import com.orange.callhistory.service.Call;
 import com.orange.callhistory.service.CallEvent;
@@ -30,9 +29,9 @@ public class CallsController implements CallsApi {
     }
 
     @Override
-    public ResponseEntity<Void> putCalls(@PathVariable String callId, @RequestBody CallDtoW callDtoW) {
+    public ResponseEntity<Void> putCalls(@PathVariable String callId, @RequestBody CallDTOWrite callDTOWrite) {
 
-        Call call = new Call(callId, callDtoW.getParticipantTelNumber(), callDtoW.getParticipantAnnouncement(), callDtoW.getParticipantRingingTimeout());
+        Call call = new Call(callId, callDTOWrite.getParticipantTelNumber(), callDTOWrite.getParticipantAnnouncement(), callDTOWrite.getParticipantRingingTimeout());
 
         Optional<Call> existingCall = callService.findCall(callId);
         if (existingCall.isPresent()) {
@@ -47,7 +46,7 @@ public class CallsController implements CallsApi {
     @Override
     public ResponseEntity<Void> postCallEvents(@PathVariable("callId") String callId, @RequestBody CallEventDto callEventDto) {
 
-        CallEvent callEvent = new CallEvent(UUID.randomUUID().toString(), valueOf(callEventDto.getStatus().toString()), callEventDto.getTimestamp());
+        CallEvent callEvent = new CallEvent(valueOf(callEventDto.getStatus().toString()), callEventDto.getTimestamp());
 
         Optional<Call> call = callService.findCall(callId);
         if (call.isPresent()) {
@@ -61,20 +60,20 @@ public class CallsController implements CallsApi {
     }
 
     @Override
-    public ResponseEntity<CallDtoR> getCall(@PathVariable("callId") String callId) {
+    public ResponseEntity<CallDTORead> getCall(@PathVariable("callId") String callId) {
 
         Optional<Call> call = callService.findCall(callId);
-        CallDtoR callDtoR = call.map(this::mapCallToCallDto).orElse(null);
+        CallDTORead callDtoR = call.map(this::mapCallToCallDto).orElse(null);
         return new ResponseEntity<>(callDtoR, HttpStatus.OK);
     }
 
 
-    private CallDtoR mapCallToCallDto(Call call) {
-        CallDtoR callDtoR = new CallDtoR();
-        callDtoR.setCallId(call.getCallId());
-        callDtoR.setParticipantTelNumber(call.getParticipantTelNumber());
-        callDtoR.setParticipantAnnouncement(call.getParticipantAnnouncement());
-        callDtoR.setParticipantRingingTimeout(call.getParticipantRingingTimeout());
+    private CallDTORead mapCallToCallDto(Call call) {
+        CallDTORead callDTORead = new CallDTORead();
+        callDTORead.setCallId(call.getCallId());
+        callDTORead.setParticipantTelNumber(call.getParticipantTelNumber());
+        callDTORead.setParticipantAnnouncement(call.getParticipantAnnouncement());
+        callDTORead.setParticipantRingingTimeout(call.getParticipantRingingTimeout());
         // the geozone is calculated with the phonenumber prefix
         String participantGeoZone;
         if (call.getParticipantTelNumber().startsWith("+33")) {
@@ -86,10 +85,10 @@ public class CallsController implements CallsApi {
         else {
             participantGeoZone = "OTHER_COUNTRY";
         }
-        callDtoR.setParticipantGeoZone(CallDtoR.ParticipantGeoZoneEnum.fromValue(participantGeoZone));
-        callDtoR.setConnectionDate(call.getConnectionDate());
-        callDtoR.setTerminationDate(call.getTerminationDate());
-        return callDtoR;
+        callDTORead.setParticipantGeoZone(CallDTORead.ParticipantGeoZoneEnum.fromValue(participantGeoZone));
+        callDTORead.setConnectionDate(call.getConnectionDate());
+        callDTORead.setTerminationDate(call.getTerminationDate());
+        return callDTORead;
     }
 
 }

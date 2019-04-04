@@ -22,13 +22,11 @@ public class CallSTest {
 
     public static final String RINGBACKTONE_WAV = "ringbacktone.wav";
 
-    public static final String CALL_ID = "call-1";
+    public static final String CALL_ID_1 = "call-id-1";
 
-    public static final String FRENCH_ZONE = "FR";
+    public static final String GEO_ZONE = "FR";
 
-    private static final String CALL_ID_2 = "call-2";
-
-    private static final String CALL_ID_3 = "call-3";
+    private static final String CALL_ID_2 = "call-id-2";
 
     @Autowired WebTestClient webTestClient;
 
@@ -49,18 +47,18 @@ public class CallSTest {
     @Test
     public void put_and_get_a_call() {
 
-        assertPutCallReturnedStatus(CALL_ID, PARTICIPANT_TEL_NUMBER, RINGBACKTONE_WAV).isNoContent();
+        assertPutCallReturnedStatus(CALL_ID_1, PARTICIPANT_TEL_NUMBER, RINGBACKTONE_WAV).isNoContent();
 
-        assertThatPostEventReturnedStatus(CALL_ID, "CREATED", "2018-10-02T16:00:00+02:00")
+        assertThatPostEventReturnedStatus(CALL_ID_1, "CREATED", "2018-10-02T16:00:00+02:00")
                 .isNoContent();
-        assertThatPostEventReturnedStatus(CALL_ID, "RINGING", "2018-10-02T16:00:01+02:00")
+        assertThatPostEventReturnedStatus(CALL_ID_1, "RINGING", "2018-10-02T16:00:01+02:00")
                 .isNoContent();
-        assertThatPostEventReturnedStatus(CALL_ID, "CONNECTED", "2018-10-02T16:00:10+02:00")
+        assertThatPostEventReturnedStatus(CALL_ID_1, "CONNECTED", "2018-10-02T16:00:10+02:00")
                 .isNoContent();
-        assertThatPostEventReturnedStatus(CALL_ID, "TERMINATED", "2018-10-02T16:05:10+02:00")
+        assertThatPostEventReturnedStatus(CALL_ID_1, "TERMINATED", "2018-10-02T16:05:10+02:00")
                 .isNoContent();
 
-        assertGetCallReturnsOk(CALL_ID, "2018-10-02T16:00:10+02:00", "2018-10-02T16:05:10+02:00");
+        assertGetCallReturnsOk(CALL_ID_1, "2018-10-02T16:00:10+02:00", "2018-10-02T16:05:10+02:00");
     }
 
     private StatusAssertions assertPutCallReturnedStatus(String callId, String participantTelNumber, String participantAnnouncement) {
@@ -100,7 +98,7 @@ public class CallSTest {
                 .jsonPath("$.participantTelNumber").isEqualTo(PARTICIPANT_TEL_NUMBER)
                 .jsonPath("$.participantAnnouncement").isEqualTo(RINGBACKTONE_WAV)
                 .jsonPath("$.participantRingingTimeout").isEqualTo(30)
-                .jsonPath("$.participantGeoZone").isEqualTo(FRENCH_ZONE)
+                .jsonPath("$.participantGeoZone").isEqualTo(GEO_ZONE)
                 .jsonPath("$.connectionDate").isEqualTo(connectionDate)
                 .jsonPath("$.terminationDate").isEqualTo(terminationDate);
     }

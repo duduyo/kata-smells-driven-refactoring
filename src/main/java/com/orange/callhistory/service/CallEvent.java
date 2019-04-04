@@ -1,6 +1,7 @@
 package com.orange.callhistory.service;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 
 public class CallEvent {
@@ -10,6 +11,12 @@ public class CallEvent {
     private CallEventStatus status;
 
     private OffsetDateTime timestamp;
+
+    public CallEvent(CallEventStatus status, OffsetDateTime timestamp) {
+        this.id = UUID.randomUUID().toString();
+        this.status = status;
+        this.timestamp = timestamp;
+    }
 
     public CallEvent(String id, CallEventStatus status, OffsetDateTime timestamp) {
         this.id = id;
